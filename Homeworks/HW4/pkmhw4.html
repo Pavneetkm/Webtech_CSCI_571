@@ -1,0 +1,330 @@
+
+<html>
+<head>
+<title>View Stations</title>
+<!--
+<BODY>
+This is for USC disclaimer
+</BODY>
+-->
+<script>
+    
+    function generateHTML(xmlDoc)
+   {  
+		ELEMENT_NODE = 1;    // MS parser doesn't define Node.ELEMENT_NODE
+        root=xmlDoc.DocumentElement;
+        html_text="<html><head><title>XML Parse Result</title></head><body>";
+        html_text+="<table border='2'>";
+		var headerData=xmlDoc.getElementsByTagName("Data");
+		
+	  
+	  var totalRows=xmlDoc.getElementsByTagName("Row");
+	  var slot=xmlDoc.getElementsByTagName("Slot");
+	  var newspaper=xmlDoc.getElementsByTagName("Newspaper");
+	  var locationData=xmlDoc.getElementsByTagName("Location");
+      var homePage=xmlDoc.getElementsByTagName("HomePage");
+	  var logoData=xmlDoc.getElementsByTagName("Logo");
+	  if(totalRows.length==0)
+        {
+            alert("No newspapers in file! Get a file with some data");
+            return 0;
+        }
+		x=300;y=150;
+		
+		//Display header
+		
+		for(i=0;i<headerData.length;i++)
+	  {
+			html_text+="<th><center>";
+			html_text+=headerData[i].childNodes[0].nodeValue;
+			html_text+="</center></th>";
+	  }
+	  
+	  //Display contents of table
+	  
+	  for(i=0;i<totalRows.length;i++)
+		{
+			html_text+="<tr>";  
+			html_text+="<td>";
+			//display call sign data
+			if(slot[i].childNodes[0] == null)
+			{	
+				html_text+="</td>";
+			}
+			else 
+			{	
+				if(slot[i].childNodes[0].nodeValue.trim() == "")
+				{
+					html_text="</td>";
+				}
+				else
+				{	
+					html_text+=slot[i].childNodes[0].nodeValue +"</td>";
+				}
+			}
+			//display newspaper information 
+			html_text+="<td>";
+			if(newspaper[i].childNodes[0] == null)
+			{	
+				html_text+="</td>";
+			}
+			else 
+			{	
+				if(newspaper[i].childNodes[0].nodeValue.trim() == "")
+				{
+					html_text="</td>";
+				}
+				else
+				{	
+					html_text+=newspaper[i].childNodes[0].nodeValue +"</td>";
+				}
+			}
+			
+			//display city, school data			
+					
+			cityLoc=locationData[i].getElementsByTagName("City");
+			schoolLoc=locationData[i].getElementsByTagName("State");
+			html_text+="<td nowrap><ul>";
+			
+			for(j=0;j<cityLoc.length;j++)
+			{	
+				if(cityLoc[j].childNodes[0] == null)
+				{	 
+					html_text+="";
+				}
+				else 
+				{
+					if(cityLoc[j].childNodes[0].nodeValue.trim() == "")
+					{
+						html_text+="";
+					}
+					else
+					{	
+					html_text+="<li>"+ cityLoc[j].childNodes[0].nodeValue+"</li>";
+					}
+				}
+			}
+			for(j=0;j<schoolLoc.length;j++)
+			{	if(schoolLoc[j].childNodes[0] == null)
+				
+				{	
+					html_text+="</td>";
+				
+				}
+				else
+				{
+					if(schoolLoc[j].childNodes[0].nodeValue.trim() == "")
+					{
+						html_text+="</td>";
+					}
+					else 
+					{	
+						html_text+="<li>"+ schoolLoc[j].childNodes[0].nodeValue+"</li></ul></td>";
+					}
+				}	
+					
+			}
+		
+					
+				//html_text+="<td>";	
+//			//display format data		
+//				if(formatData[i].childNodes[0] == null)
+//				{	
+//					html_text+="</td>";
+//				}
+//				else 
+//				{	
+//					if(formatData[i].childNodes[0].nodeValue.trim() == "")
+//					{
+//						html_text="</td>";
+//					}
+//					else
+//					{	
+//						html_text+=formatData[i].childNodes[0].nodeValue +"</td>";
+//					}
+//				}
+				
+			//display homepage data	
+				html_text+="<td>";
+				if(homePage[i].childNodes[0] == null)
+				{	
+					html_text+="</td>";
+				}
+				else 
+				{	
+					if(homePage[i].childNodes[0].nodeValue.trim() == "")
+					{
+						html_text="</td>";
+					}
+					else
+					{	
+						html_text+="<a href='"+homePage[i].childNodes[0].nodeValue + "'>" +homePage[i].childNodes[0].nodeValue +"</a></td>";
+					}
+				}
+				//display logo data
+				html_text+="<td>";
+				if(logoData[i].childNodes[0] == null)
+				{	
+					html_text+="</td>";
+				}
+				else 
+				{	
+					if(logoData[i].childNodes[0].nodeValue.trim() == "")
+					{
+						html_text="</td>";
+					}
+					else
+					{	
+						html_text+="<img src='"+logoData[i].childNodes[0].nodeValue + "' alt='Image not available'></td>";
+					}
+				}
+			
+			
+			
+		html_text+="</tr>";
+		}
+	  html_text+="</table></body></html>";
+	}
+	
+    
+    function viewXML(what)
+{	
+	var URL = what.URL.value;
+		if(URL.trim()=="")
+		{	
+			alert("Enter a Url.");
+			return;
+		}
+		else
+		{	function loadXML(url) 
+			{	
+				var xmlDoc;
+				if (window.XMLHttpRequest)
+				{// code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp=new XMLHttpRequest();   
+				}
+				else 
+				{// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+				}
+			xmlhttp.open("GET",url,false);
+			
+			xmlhttp.onreadystatechange = function() 
+                    {
+                        if (xmlhttp.readyState == 4)
+                        {
+                            if (xmlhttp.status == 200) 
+                            {
+                                if(xmlhttp.responseXML == null)
+                                {
+                                    alert("Error in XML file. Check its structure.");                                    
+                                }
+                                else if(xmlhttp.responseXML.documentElement.nodeName == "parsererror")
+                                {
+                                    alert(xmlhttp.responseXML.documentElement.childNodes[0].nodeValue);                                    
+                                }
+								
+                                else
+                                {
+                                    xmlDoc=xmlhttp.responseXML;    
+                                }                                
+                            }
+                            else if (xmlhttp.status == 404)
+
+                            {
+                               alert("Error 404!! File does not exist.");
+                            }
+							
+                        }
+						
+						
+					}
+					
+						
+			try
+			{	
+			xmlhttp.send();
+			}
+			catch(err)
+			{
+			alert(" File Does not exist 404");
+			}
+			return xmlDoc;   
+			}
+         
+        
+			xmlDoc = loadXML(URL);
+			if(xmlDoc == undefined)
+			{	
+				return;
+			}
+			
+			if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+			{  
+				if (xmlDoc.parseError.errorCode != 0) 
+				{
+					var myErr = xmlDoc.parseError;
+					generateError(xmlDoc);
+					hWin = window.open("", "Error", "height=300,width=340");
+					hWin.document.write(html_text);
+				} 
+				else
+				{	
+					var check=generateHTML(xmlDoc);
+					if(check==0)
+					{	
+						return;
+					}
+					else
+					{  
+						
+						hWin = window.open("", "Assignment4", "resizable=yes, scrollbars=yes, height=800,width=1000");
+						hWin.document.write(html_text);   
+					}
+				}
+			} 
+			else //else if FF, execute script once XML object has loaded
+			{ 	
+				var check = generateHTML(xmlDoc);
+					if(check==0)
+					{	
+						return;
+					}
+					else
+					{
+						xmlDoc.onload=generateHTML(xmlDoc);
+						hWin = window.open("", "Assignment4", "resizable=yes, scrollbars=yes,height=800,width=1000");
+						hWin.document.write(html_text);
+					}
+				}
+			hWin.document.close();  
+		}
+	
+}
+ 
+function validateInput(what){
+var URL = what.URL.value;
+
+if(URL== null || URL=="")
+{alert("Please enter a URL");
+return false;}
+else
+{
+   viewXML(what);
+}
+}
+ </script>
+ </head>
+<body>
+
+<center>
+<br><br>
+Enter URL for Company List XML File<br><br>
+<form name="myform" method="POST" id="location">
+<input type="text" name="URL" maxlength="255" size="21" value=""/>
+<br /><br/>
+<input type="button" name="Submit Query" value="Submit Query" onClick="validateInput(this.form)" />
+</form>
+</center>
+</body>
+</html>
