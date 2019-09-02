@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" >
+    <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="pkmcongresscss.css">
+ 
+ 
+      
+      
+     
+        
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+        <script src="https://code.angularjs.org/1.3.0/angular.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+         <script src="dirPagination.js" type="text/javascript"></script>
+<!--        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/X.Y.Z/angular-route.js"></script>-->
+<!--        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="pkmcongressjs.js" type="text/javascript"></script>
+        <script src="moment-with-locales.js" type="text/javascript"></script>
+      <title>Congress API</title>
+ 
+    
+        
+        
+    </head>
+    
+    <body class="body">
+        
+    <header class="header">
+        <div class="container-fluid">
+            <div class="col-md-2">   
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false"><span class="sr-only">Toggle Navigation</span>
+                <span class="icon=bar"></span><span class="icon=bar"></span><span class="icon=bar"></span></button>
+            </div>
+                <div class="col-md-8">
+        <center><a href="http://sunlightfoundation.com/" target="_blank"><img  src="http://cs-server.usc.edu:45678/hw/hw8/images/logo.png"></a> <span class="congress">Congress API</span></center>
+                </div>
+        </div>
+     </header>
+<div class="row">
+<div class="col-sm-2">
+<div class="container-fluid"> 
+<!--<div class="row">-->
+        
+        <div class="collapse navbar-collapse" id="collapsemenu">
+            <div class="navbar navbar-inverse navbar-fixed-left">
+                <ul class="nav navbar-nav">
+                   <li><a href="#" id="ltab" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Legislators</a></li>
+                   <li><a href="#" id="btab" ><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Bills</a></li>
+                   <li><a href="#" id="ctab" ><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Committee</a></li>
+                   <li><a href="#" id="ftab" ><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Favorites</a></li>
+                </ul>
+            </div>
+        </div>
+<!--    </div> -->
+    </div>
+</div>
+
+<div class="col-sm-10" id="legislator">
+    <div class="container-fluid" ng-controller="myCtrl">
+    <div class="row">
+        
+  <h3>Legislators</h3>
+  <hr>
+        
+        
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+  
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="#table1" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="#table2"></li>
+  </ol>
+    
+    
+            
+    <div class="carousel-inner" role="listbox">
+    <div class="item active">
+        
+        
+        
+      <table class="table table-hover" id="table1">
+    <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#state" id="bystate" ng-click="legbystate()">By State</a></li>
+    <li><a data-toggle="tab" href="#" id="house" ng-click="legbyhouse()">House</a></li>
+    <li><a data-toggle="tab" href="#" id="senate" ng-click="legbysenate()">Senate</a></li>
+  </ul>
+    
+
+
+    <p style="padding-top:10px;">
+<select id="states" style="float:right;">
+    <option selected disabled>All states</option>
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District Of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select>
+    </p>
+    
+    <thead>
+    <tr>
+      <th>Party</th>
+      <th>Name</th>
+      <th>Chamber</th>
+      <th>District</th>
+      <th>State</th>
+      <th></th>
+    </tr>
+ </thead>
+    
+    
+
+    
+        
+    <div class="tab-content">
+    <div id="state" class="tab-pane fade in active" >
+<!--   <tr ng-repeat="data in myData.results| orderBy:'state_name'" >-->
+ <tr dir-paginate="data in myData.results|itemsPerPage:10"  pagination-id="paginate">
+          
+      <td><img  height=" 25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/{{data.party|lowercase}}.png"></td>
+      <td>{{data.first_name}} {{data.last_name}}</td>
+      <td><span ng-if="data.chamber === 'house'"><img  height=" 25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/h.png"></span><span ng-if="data.chamber === 'senate'"><img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/s.svg"></span> {{data.chamber}}</td>
+      <td><span ng-if="data.district ===null">N.A</span><span ng-if="data.district !== null">District {{data.district}}</span> </td>
+      <td>{{data.state_name}}</td>
+      <td><a class="right" href="#myCarousel" role="button" data-slide="next"><button type="button" class="btn btn-primary" ng-click="legviewdetails(data)" >View Details</button></a></td>
+                
+ </tr>
+        
+        <tr>      <td colspan="5">   <center>
+     <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="paginate"></dir-pagination-controls>
+            </center></td></tr>
+       
+           
+    </div>
+        
+          </div>
+          
+          
+        </table>
+        
+        
+        
+        
+        
+    </div>
+        
+        
+        
+    <div class="item">
+      
+        
+        
+        
+    <a class="left" href="#myCarousel" role="button" data-slide="prev">
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+  <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+        </button></a>
+            
+
+    <h4 style="display:inline;">Details</h4>
+    <button  type="button" class="btn btn-default" aria-label="Right Align" style="float:right;" ng-click="favlegdetail(vdata)">
+  <span class="glyphicon glyphicon-star-empty" aria-hidden="true" ></span>
+</button> 
+<hr>
+     
+        
+        
+<div class="container">
+    <div class="row">
+    <div class="col-sm-6" id="tabledetails">       
+    <table class="table table-hover" id="table2">
+        
+    <tr><td><img height="250px" src="http://theunitedstates.io/images/congress/original/{{vdata.bioguide_id}}.jpg"></td>
+        <td><table class="table">
+            
+           <tr><td>{{vdata.title}} {{vdata.last_name}},{{vdata.first_name}}</td></tr>
+            <tr><td><a href="mailTo:{{vdata.oc_email}}">{{vdata.oc_email}}</a></td></tr>
+         <tr><td>Chamber: {{vdata.chamber}}</td></tr>
+            <tr><td>Contact : <a href="{{vdata.phone}}"> {{vdata.phone}}</a></td></tr>
+            <tr><td><img  height=" 25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/{{vdata.party|lowercase}}.png">
+               <span ng-if="vdata.party ==='R'"> Republic</span>
+                <span ng-if="vdata.party ==='D'"> Democrat</span></td></tr>
+            </table>
+            </td>
+    
+    </tr>
+       
+    <tr><td float="left">Start Term</td><td> {{vdata.term_start}}</td></tr>
+    <tr> <td float="left">End Term</td><td>{{vdata.term_end}}</td></tr>
+      <tr> <td float="left">Term</td><td>
+          
+          
+          
+<div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{p}}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{p}}%">
+    {{p}} %
+  </div>
+</div>
+          
+          </td></tr>  
+    <tr><td float="left">Office </td><td>{{vdata.office}}</td></tr>
+        <tr><td float="left">State</td><td>{{vdata.state_name}}</td></tr>
+        <tr><td float="left">Fax</td><td><a href="#">{{vdata.fax}}</a></td></tr>
+    <tr><td float="left">Birthday</td><td>{{vdata.birthday}}</td></tr>
+        <tr><td float="left">Social Links </td><td><span><a href="http://www.twitter.com/{{vdata.twitter_id}}" target="_blank"><img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/t.png"></a></span>
+            <span><a href='http://www.facebook.com/{{vdata.facebook_id}}' target="_blank"><img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/f.png"></a></span>
+           <span> <a href="{{vdata.website}}" target="_blank"> <img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/w.png"></a> </span></td></tr>
+        
+      </table>
+        </div>
+
+    
+    
+<div class="col-sm-6">
+ <table class="table" id="table3">
+     
+      <h4>Committees</h4>
+     
+     <thead>
+    <tr>
+      <th>Chamber</th>
+      <th>Committee ID </th>
+      <th>Name</th>
+     
+    </tr>
+ </thead>
+     
+     <tr ng-repeat="data1 in myData1" >
+         
+         <td>{{data1.chamber}}</td>
+         <td>{{data1.committee_id}}</td>  
+         <td>{{data1.name}}</td>
+     </tr>
+    </table>  
+    
+    
+    
+    <table class="table" id="table4">
+    <h4>Bills</h4>
+        
+        <thead>
+    <tr>
+      <th>Bill ID</th>
+      <th>Title </th>
+      <th>Chamber</th>
+      <th>Bill Type</th>
+      <th>Congress </th>
+      <th>Link</th>
+     
+    </tr>
+        </thead>
+        
+        
+        
+<!--
+         <tr ng-repeat="data2 in myData2" >
+         
+         <td>{{data2.bill_id}}</td>
+         <td>{{data2.official_title}}</td>  
+         <td>{{data2.chamber}}</td>
+         <td>{{data2.type}}</td>
+        <td>{{data2.congress}}</td>
+        <td>{{data2.url}}</td>
+     </tr>
+-->
+    
+ </table>
+         </div>
+        
+
+    </div>    
+      </div>        
+    </div>        
+       
+    </div>
+    </div>
+    
+</div>
+       </div>
+        </div>
+    
+    
+    
+        
+    <div clas="row" id="bill" style="display:none;">
+    <div class="col-sm-10" >
+    <div class="container-fluid" ng-controller="billCtrl" >
+    <div class="row">
+        
+  <h3>Bills</h3>
+  <hr>
+<table class="table">
+    <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#" rel="activebills">Active Bills</a></li>
+    <li><a data-toggle="tab" href="#" rel="newbills">New Bills</a></li>
+    
+  </ul>
+    
+    
+    <div class="tab-content">
+    
+    Active Bills   
+        <div class="col-sm-3 col-md-3 pull-right">
+        <form class="navbar-form" role="search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+        </form>
+        </div>
+       <thead>
+    <tr>
+      <th>Bill Id </th>
+      <th>Bill Type</th>
+      <th>Title</th>
+      <th>Chamber</th>
+      <th>Introduced on </th>
+      <th>Sponsor</th>
+      <th></th>
+    </tr>
+</thead>
+       <div id="bills" class="tab-pane fade in active" >
+   <tr ng-repeat="data in myData.results|limitTo: 10">
+   
+       
+      <td>{{data.bill_id}}</td>
+      <td>{{data.bill_type}}</td>
+      <td> {{data.official_title}}</td>
+      <td><span ng-if="data.chamber === 'house'"><img  height=" 25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/h.png"></span><span ng-if="data.chamber === 'senate'"><img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/s.svg"></span> {{data.chamber}}</td>
+      <td>{{data.introduced_on}}</td>
+      <td>{{data.sponsor.title}}. {{data.sponsor.first_name}}, {{data.sponsor.last_name}}</td>
+      <td><button type="button" class="btn btn-primary">View Details</button></td> 
+   </tr>  
+
+    </div>
+    
+        
+    </div></table>
+    </div>
+    </div>
+    </div>
+    </div>
+        
+        
+        
+    <div class="container-fluid" ng-controller="comCtrl">    
+        
+    <div class="col-sm-10" id="committee" style="display:none;">
+    
+    <div class="row">
+        
+  <h3>Committees</h3>
+  <hr>
+<table class="table table-hover">
+    <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#"  id="housecom" ng-click="comhouse()">House</a></li>
+    <li><a data-toggle="tab" href="#"  id="senatecom" ng-click="comsenate()">Senate</a></li>
+        <li><a data-toggle="tab" href="#"   id="jointcom" ng-click="comjoint()">Joint</a></li>
+    
+  </ul>
+    
+    
+    <div class="tab-content">
+    
+      
+        <div class="col-sm-3 col-md-3 pull-right">
+        <form class="navbar-form" role="search">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            
+        </div>
+        </form>
+        </div>
+       
+        
+        <thead>
+   
+    <tr>  
+      <th> </th>
+      <th>Chamber </th>
+      <th>Committee ID  </th>
+      <th>Name </th> 
+      <th>Parent Committee </th>
+      
+      <th>Office</th>   
+    </tr>
+</thead>
+        
+        
+    <div id="committees" class="tab-pane fade in active" >
+<!--   <tr ng-repeat="data in myData.results|limitTo: 10">-->
+   <tr dir-paginate="data in myData.results|itemsPerPage:10|filter:test"  pagination-id="paginate">
+       <td><button class="glyphicon glyphicon-star-empty" aria-hidden="true" ></button></td>
+      <td><span ng-if="data.chamber == 'house'"><img  height=" 25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/h.png"></span><span ng-if="data.chamber == 'senate'"><img height="25px" src="http://cs-server.usc.edu:45678/hw/hw8/images/s.svg"></span> {{data.chamber}}</td>
+      <td>{{data.committee_id}}</td>
+      <td> {{data.name}}</td>
+      <td>{{data.parent_committee_id}}</td>
+       <td>{{data.office}}</td>
+      
+       
+      
+   </tr> 
+        <tr>      <td colspan="5">   <center>
+     <dir-pagination-controls max-size="10" boundary-links="true" direction-links="true" pagination-id="paginate"></dir-pagination-controls>
+            </center></td></tr>
+       
+
+    </div>
+    
+        
+    </div></table>
+    </div>
+    </div>
+    </div>
+    
+        
+  
+     
+    
+      
+<div clas="row">
+    <div class="col-sm-10" id="favorites" style="display:none;">
+    <div class="container-fluid" ng-controller="myCtrl">
+    <div class="row">
+        
+  <h3>Favorites</h3>
+  <hr>
+            <table class="table table-hover">
+    <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#" rel="favleg">Legislator</a></li>
+    <li><a data-toggle="tab" href="#" rel="favbills">Bills</a></li>
+        <li><a data-toggle="tab" href="#" rel="favcom">Committee</a></li>
+    
+  </ul>
+    
+    <thead>        
+      <tr>  
+      <th> </th>
+      <th>Image </th>
+      <th>Party  </th>
+      <th>Name </th> 
+      <th>Chamber </th>
+         <th>State </th>
+         <th>Email </th>
+      
+       
+    </tr>
+</thead>
+              <tbody>
+                  
+<!--                <tr ng-repeat="data3 in newt">-->
+                  <tr><td>{{data3.chamber}}</td>
+                    <td>{{a}}</td>
+                    <td>asdasdads</td>
+                    <td>ajsbdjhasbd</td>
+                    <td>kjasdkjnasd</td>
+                    <td>asdasd</td>
+                    <td>askjdnaskjn</td>
+                </tr>
+            </tbody>      
+            
+                
+            
+            </table>
+        </div>
+        </div>
+    </div>
+    
+    </div>
+
+    
+    
+     
+
+    
+ 
+            
+     
+        </div>    
+</body>
+</html>
